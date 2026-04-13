@@ -1,0 +1,22 @@
+# IDE files
+*.user
+*.suo
+*.userprefs
+
+# Build results
+bin/
+obj/
+BuildLogs/
+
+# Test results
+test-results/
+
+# Claude files
+.claude/
+
+# VS Code
+.vscode/
+
+# General ignore
+.DS_Store
+Thumbs.db

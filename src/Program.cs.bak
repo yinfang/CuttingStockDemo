@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using CuttingStockProblem.Models;
+using CuttingStockProblem.Algorithms;
+using CuttingStockProblem.Services;
+
+namespace CuttingStockProblem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("One-Dimensional Cutting Stock Problem Solver");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("This is a console application for testing purposes.");
+            Console.WriteLine("For the full WPF application, please run the WPF project.");
+            Console.WriteLine();
+
+            // Create sample data
+            var stockMaterials = new List<StockMaterial>
+            {
+                new StockMaterial(100, 10, 10),
+                new StockMaterial(200, 5, 15)
+            };
+
+            var cuttingItems = new List<CuttingItem>
+            {
+                new CuttingItem(20, 10),
+                new CuttingItem(15, 5),
+                new CuttingItem(30, 8)
+            };
+
+            Console.WriteLine("Sample data created:");
+            Console.WriteLine("Stock materials:");
+            foreach (var stock in stockMaterials)
+            {
+                Console.WriteLine($"  {stock}");
+            }
+
+            Console.WriteLine("\nCutting items:");
+            foreach (var item in cuttingItems)
+            {
+                Console.WriteLine($"  {item}");
+            }
+
+            // Initialize algorithm
+            var geneticAlgorithm = new GeneticAlgorithm();
+
+            Console.WriteLine("\nAlgorithm initialized with default parameters.");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }
+    }
+}
