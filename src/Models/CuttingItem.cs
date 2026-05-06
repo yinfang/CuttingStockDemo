@@ -10,7 +10,12 @@ namespace CuttingStockProblem.Models
     public class CuttingItem
     {
         /// <summary>
-        /// The required length of the item
+        /// The specification this item requires (must match stock material spec)
+        /// </summary>
+        public string Specification { get; set; }
+
+        /// <summary>
+        /// The required length of the item in mm
         /// </summary>
         public double Length { get; set; }
 
@@ -24,8 +29,17 @@ namespace CuttingStockProblem.Models
         /// </summary>
         public int Demand { get; set; }
 
+        public CuttingItem(string specification, double length, int quantity, int demand = 1)
+        {
+            Specification = specification;
+            Length = length;
+            Quantity = quantity;
+            Demand = demand;
+        }
+
         public CuttingItem(double length, int quantity, int demand = 1)
         {
+            Specification = "";
             Length = length;
             Quantity = quantity;
             Demand = demand;
@@ -33,7 +47,7 @@ namespace CuttingStockProblem.Models
 
         public override string ToString()
         {
-            return $"Length: {Length}, Quantity: {Quantity}, Demand: {Demand}";
+            return $"Spec: {Specification}, Length: {Length}, Quantity: {Quantity}";
         }
     }
 }

@@ -5,186 +5,404 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CuttingStockProblem.Views"
         mc:Ignorable="d"
-        Title="一维下料问题求解器" Height="600" Width="1000">
-    <Grid>
+        Title="一维下料问题求解器"
+        Height="700"
+        Width="1200">
+    <Window.Resources>
+        <!-- Modern Styles -->
+        <Style x:Key="ModernButtonStyle"
+                TargetType="Button">
+            <Setter Property="Background"
+                    Value="#FF4CAF50"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="Padding"
+                    Value="10,5"/>
+            <Setter Property="Margin"
+                    Value="5"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle"
+                TargetType="Button">
+            <Setter Property="Background"
+                    Value="#FF1976D2"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="Padding"
+                    Value="10,5"/>
+            <Setter Property="Margin"
+                    Value="5"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+        </Style>
+
+        <Style x:Key="DangerButtonStyle"
+                TargetType="Button">
+            <Setter Property="Background"
+                    Value="#FFF44336"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="Padding"
+                    Value="10,5"/>
+            <Setter Property="Margin"
+                    Value="5"/>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#FFF0F0F0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0">
-            <MenuItem Header="文件">
-                <MenuItem Header="新建" />
-                <MenuItem Header="打开" />
-                <MenuItem Header="保存" />
-                <Separator />
-                <MenuItem Header="导出到Excel" />
-                <Separator />
-                <MenuItem Header="退出" />
-            </MenuItem>
-            <MenuItem Header="工具">
-                <MenuItem Header="设置" />
-                <MenuItem Header="算法参数" />
-            </MenuItem>
-            <MenuItem Header="帮助">
-                <MenuItem Header="关于" />
-            </MenuItem>
-        </Menu>
+        <ScrollViewer Grid.Row="0"
+                VerticalScrollBarVisibility="Auto">
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-        <TabControl Grid.Row="1" Margin="10">
-            <TabItem Header="数据输入">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <GroupBox Grid.Column="0" Header="原材料" Margin="5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <DataGrid Grid.Row="1" Name="StockMaterialsGrid" AutoGenerateColumns="False"
-                                      CanUserAddRows="True" Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="长度" Binding="{Binding Length}" Width="*"/>
-                                    <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="*"/>
-                                    <DataGridTextColumn Header="成本" Binding="{Binding Cost}" Width="*"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                                <Button Content="添加原材料" Width="100" Margin="5"/>
-                                <Button Content="删除原材料" Width="100" Margin="5"/>
-                            </StackPanel>
-                        </Grid>
-                    </GroupBox>
-
-                    <GroupBox Grid.Column="1" Header="切割项目" Margin="5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <DataGrid Grid.Row="1" Name="CuttingItemsGrid" AutoGenerateColumns="False"
-                                      CanUserAddRows="True" Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="长度" Binding="{Binding Length}" Width="*"/>
-                                    <DataGridTextColumn Header="数量" Binding="{Binding Quantity}" Width="*"/>
-                                    <DataGridTextColumn Header="需求" Binding="{Binding Demand}" Width="*"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                                <Button Content="添加项目" Width="100" Margin="5"/>
-                                <Button Content="删除项目" Width="100" Margin="5"/>
-                            </StackPanel>
-                        </Grid>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="算法设置">
-                <Grid Margin="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- 左侧：数据输入区域 -->
+                <Grid Grid.Column="0"
+                        Margin="0,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="0" Content="种群大小:" Margin="5"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="100" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                    <!-- 原材料输入 -->
+                    <GroupBox Grid.Row="0"
+                            Header="原材料"
+                            BorderBrush="#FFCCCCCC"
+                            BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="最大迭代次数:" Margin="5"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="500" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                            <DataGrid Grid.Row="0"
+                                    Name="StockMaterialsGrid"
+                                    ItemsSource="{Binding StockMaterials}"
+                                    AutoGenerateColumns="False"
+                                    CanUserAddRows="True"
+                                    HeadersVisibility="Column"
+                                    GridLinesVisibility="Horizontal"
+                                    HorizontalGridLinesBrush="#FFE0E0E0"
+                                    RowBackground="White"
+                                    AlternatingRowBackground="#FFF5F5F5"
+                                    Margin="0,5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="规格"
+                                            Binding="{Binding Specification}"
+                                            Width="*"/>
+                                    <DataGridTextColumn Header="长度"
+                                            Binding="{Binding Length}"
+                                            Width="*"/>
+                                    <DataGridTextColumn Header="可用量"
+                                            Binding="{Binding Quantity}"
+                                            Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                    <Label Grid.Row="2" Grid.Column="0" Content="交叉率:" Margin="5"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="0.8" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                            <StackPanel Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,5">
+                                <Button Content="添加原材料"
+                                        Command="{Binding AddStockCommand}"
+                                        Style="{StaticResource ModernButtonStyle}"
+                                        Width="90"
+                                        Height="28"/>
+                                <Button Content="删除原材料"
+                                        Command="{Binding RemoveStockCommand}"
+                                        Style="{StaticResource DangerButtonStyle}"
+                                        Width="90"
+                                        Height="28"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
 
-                    <Label Grid.Row="3" Grid.Column="0" Content="变异率:" Margin="5"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="0.1" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                    <GroupBox Grid.Row="1"
+                            Header="下料项目"
+                            BorderBrush="#FFCCCCCC"
+                            BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <Label Grid.Row="4" Grid.Column="0" Content="损耗值:" Margin="5"/>
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="0.1" Width="100" HorizontalAlignment="Left" Margin="5"/>
+                            <StackPanel Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    Margin="0,5">
+                                <Label Content="测试数据:"
+                                        VerticalAlignment="Center"/>
+                                <ComboBox ItemsSource="{Binding TestDataSetNames}"
+                                        SelectedItem="{Binding SelectedTestDataSet}"
+                                        Width="180"
+                                        VerticalAlignment="Center"
+                                        Margin="5,0"/>
+                            </StackPanel>
 
-                    <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="运行算法"
-                            Width="150" Height="30" Margin="5" HorizontalAlignment="Left"/>
+                            <DataGrid Grid.Row="1"
+                                    Name="CuttingItemsGrid"
+                                    ItemsSource="{Binding CuttingItems}"
+                                    AutoGenerateColumns="False"
+                                    CanUserAddRows="True"
+                                    HeadersVisibility="Column"
+                                    GridLinesVisibility="Horizontal"
+                                    HorizontalGridLinesBrush="#FFE0E0E0"
+                                    RowBackground="White"
+                                    AlternatingRowBackground="#FFF5F5F5"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Margin="0,5">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="规格"
+                                            Binding="{Binding Specification}"
+                                            Width="*"/>
+                                    <DataGridTextColumn Header="长度"
+                                            Binding="{Binding Length}"
+                                            Width="*"/>
+                                    <DataGridTextColumn Header="数量"
+                                            Binding="{Binding Quantity}"
+                                            Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,5">
+                                <Button Content="添加项目"
+                                        Command="{Binding AddItemCommand}"
+                                        Style="{StaticResource ModernButtonStyle}"
+                                        Width="80"
+                                        Height="28"/>
+                                <Button Content="删除项目"
+                                        Command="{Binding RemoveItemCommand}"
+                                        Style="{StaticResource DangerButtonStyle}"
+                                        Width="80"
+                                        Height="28"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
-            </TabItem>
 
-            <TabItem Header="结果展示">
-                <Grid>
+                <!-- 右侧：算法设置和结果展示 -->
+                <Grid Grid.Column="1"
+                        Margin="10,0,0,10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <GroupBox Header="解决方案摘要" Margin="5">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    <!-- 算法设置 -->
+                    <GroupBox Grid.Row="0"
+                            Header="算法设置"
+                            BorderBrush="#FFCCCCCC"
+                            BorderThickness="1">
+                        <StackPanel Margin="10">
+                            <!-- 第一行：遗传算法核心参数 -->
+                            <TextBlock Text="遗传算法参数"
+                                    FontWeight="SemiBold"
+                                    Foreground="#FF333333"
+                                    Margin="0,0,0,8"/>
+                            <Border Background="White"
+                                    CornerRadius="4"
+                                    BorderBrush="#FFE0E0E0"
+                                    BorderThickness="1"
+                                    Padding="12,8"
+                                    Margin="0,0,0,10">
+                                <WrapPanel>
+                                    <StackPanel Margin="0,0,20,4">
+                                        <TextBlock Text="种群大小"
+                                                FontSize="11"
+                                                Foreground="#FF888888"
+                                                Margin="0,0,0,3"/>
+                                        <TextBox Text="{Binding PopulationSize, UpdateSourceTrigger=PropertyChanged}"
+                                                Width="80"
+                                                Padding="4,3"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,20,4">
+                                        <TextBlock Text="最大迭代次数"
+                                                FontSize="11"
+                                                Foreground="#FF888888"
+                                                Margin="0,0,0,3"/>
+                                        <TextBox Text="{Binding MaxGenerations, UpdateSourceTrigger=PropertyChanged}"
+                                                Width="80"
+                                                Padding="4,3"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,20,4">
+                                        <TextBlock Text="交叉率"
+                                                FontSize="11"
+                                                Foreground="#FF888888"
+                                                Margin="0,0,0,3"/>
+                                        <TextBox Text="{Binding CrossoverRate, UpdateSourceTrigger=PropertyChanged}"
+                                                Width="80"
+                                                Padding="4,3"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,20,4">
+                                        <TextBlock Text="变异率"
+                                                FontSize="11"
+                                                Foreground="#FF888888"
+                                                Margin="0,0,0,3"/>
+                                        <TextBox Text="{Binding MutationRate, UpdateSourceTrigger=PropertyChanged}"
+                                                Width="80"
+                                                Padding="4,3"/>
+                                    </StackPanel>
+                                </WrapPanel>
+                            </Border>
 
-                            <StackPanel Grid.Column="0" Margin="5">
-                                <TextBlock Text="总模式数:" FontWeight="Bold"/>
-                                <TextBlock Text="0" Name="TotalPatternsText"/>
-                            </StackPanel>
+                            <!-- 第二行：工艺参数 -->
+                            <TextBlock Text="工艺参数"
+                                    FontWeight="SemiBold"
+                                    Foreground="#FF333333"
+                                    Margin="0,0,0,8"/>
+                            <Border Background="White"
+                                    CornerRadius="4"
+                                    BorderBrush="#FFE0E0E0"
+                                    BorderThickness="1"
+                                    Padding="12,8"
+                                    Margin="0,0,0,12">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="0,0,20,0">
+                                        <TextBlock Text="切割损耗值"
+                                                FontSize="11"
+                                                Foreground="#FF888888"
+                                                Margin="0,0,0,3"/>
+                                        <TextBox Text="{Binding TrimLoss, UpdateSourceTrigger=PropertyChanged}"
+                                                Width="80"
+                                                Padding="4,3"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
 
-                            <StackPanel Grid.Column="1" Margin="5">
-                                <TextBlock Text="总浪费:" FontWeight="Bold"/>
-                                <TextBlock Text="0" Name="TotalWasteText"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2" Margin="5">
-                                <TextBlock Text="效率:" FontWeight="Bold"/>
-                                <TextBlock Text="0%" Name="EfficiencyText"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="3" Margin="5">
-                                <TextBlock Text="总成本:" FontWeight="Bold"/>
-                                <TextBlock Text="¥0" Name="TotalCostText"/>
-                            </StackPanel>
-                        </Grid>
+                            <!-- 运行按钮 -->
+                            <Button Content="▶ 运行算法"
+                                    Command="{Binding RunAlgorithmCommand}"
+                                    Background="#FF4CAF50"
+                                    Foreground="White"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Padding="20,8"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    HorizontalAlignment="Left"
+                                    Height="38"/>
+                        </StackPanel>
                     </GroupBox>
 
-                    <DataGrid Grid.Row="1" Name="ResultsGrid" AutoGenerateColumns="False" Margin="5">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="模式编号" Binding="{Binding PatternNumber}" Width="*"/>
-                            <DataGridTextColumn Header="原材料长度" Binding="{Binding StockLength}" Width="*"/>
-                            <DataGridTextColumn Header="项目数量" Binding="{Binding ItemsCount}" Width="*"/>
-                            <DataGridTextColumn Header="浪费量" Binding="{Binding Waste}" Width="*"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                        <Button Content="导出到Excel" Width="120" Height="30" Margin="5"/>
-                        <Button Content="打印解决方案" Width="120" Height="30" Margin="5"/>
-                    </StackPanel>
+                        <GroupBox Header="解决方案摘要"
+                                Margin="5"
+                                BorderBrush="#FFCCCCCC"
+                                BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                        Margin="5">
+                                    <TextBlock Text="总模式数:"
+                                            FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding TotalPatterns}"
+                                            Name="TotalPatternsText"
+                                            Foreground="#FF666666"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1"
+                                        Margin="5">
+                                    <TextBlock Text="总浪费:"
+                                            FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding TotalWaste}"
+                                            Name="TotalWasteText"
+                                            Foreground="#FF666666"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2"
+                                        Margin="5">
+                                    <TextBlock Text="效率:"
+                                            FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Efficiency, StringFormat=P2}"
+                                            Name="EfficiencyText"
+                                            Foreground="#FF666666"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3"
+                                        Margin="5">
+                                    <TextBlock Text="总成本:"
+                                            FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding TotalCost, StringFormat=C}"
+                                            Name="TotalCostText"
+                                            Foreground="#FF666666"/>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+
+                        <DataGrid Grid.Row="1"
+                                ItemsSource="{Binding SolutionResult.SpecificationGroups}"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                HeadersVisibility="Column"
+                                GridLinesVisibility="Horizontal"
+                                HorizontalGridLinesBrush="#FFE0E0E0"
+                                RowBackground="White"
+                                AlternatingRowBackground="#FFF5F5F5"
+                                IsReadOnly="True"
+                                MinHeight="200">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="规格"
+                                        Binding="{Binding Specification}"
+                                        Width="80"/>
+                                <DataGridTextColumn Header="总数量"
+                                        Binding="{Binding TotalCutCount}"
+                                        Width="*"/>
+                                <DataGridTextColumn Header="原材料长度"
+                                        Binding="{Binding StockLength}"
+                                        Width="*"/>
+                                <DataGridTextColumn Header="使用根数"
+                                        Binding="{Binding StockBarsUsed}"
+                                        Width="*"/>
+                                <DataGridTextColumn Header="余料总长"
+                                        Binding="{Binding TotalWaste, StringFormat=F1}"
+                                        Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="5">
+                            <Button Content="导出到Excel"
+                                    Command="{Binding ExportToExcelCommand}"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Width="120"
+                                    Height="30"
+                                    Margin="5"/>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
-            </TabItem>
-        </TabControl>
-
-        <StatusBar Grid.Row="2">
-            <StatusBarItem Content="就绪" Name="StatusBar"/>
-        </StatusBar>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>

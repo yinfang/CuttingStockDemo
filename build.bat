@@ -5,7 +5,7 @@ echo ==========================================
 REM Check if dotnet is installed
 dotnet --version >nul 2>&1
 if errorlevel 1 (
-    echo Error: .NET SDK not found. Please install .NET 6.0 SDK.
+    echo Error: .NET SDK not found. Please install .NET 8.0 SDK.
     exit /b 1
 )
 

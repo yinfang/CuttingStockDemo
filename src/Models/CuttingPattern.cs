@@ -29,8 +29,48 @@ namespace CuttingStockProblem.Models
         /// </summary>
         public int PatternCount { get; set; }
 
+        /// <summary>
+        /// Gets the pattern number for display purposes
+        /// </summary>
+        public int PatternNumber { get; set; }
+
+        /// <summary>
+        /// Gets the specification for display purposes
+        /// </summary>
+        public string Specification => Stock?.Specification ?? "";
+
+        /// <summary>
+        /// Gets the stock length for display purposes
+        /// </summary>
+        public double StockLength => Stock?.Length ?? 0;
+
+        /// <summary>
+        /// Gets the items count for display purposes
+        /// </summary>
+        public int ItemsCount => CutItems?.Count ?? 0;
+
+        /// <summary>
+        /// Number of stock bars used in this pattern's specification group (原材料根数)
+        /// Set by the algorithm after grouping.
+        /// </summary>
+        public int GroupStockBarsUsed { get; set; }
+
+        /// <summary>
+        /// Total waste across the specification group (余料总长)
+        /// Set by the algorithm after grouping.
+        /// </summary>
+        public double GroupTotalWaste { get; set; }
+
         public CuttingPattern(StockMaterial stock)
         {
+            PatternNumber = 1;
+            Stock = stock;
+            CutItems = new List<CuttingItem>();
+        }
+
+        public CuttingPattern(int patternNumber, StockMaterial stock)
+        {
+            PatternNumber = patternNumber;
             Stock = stock;
             CutItems = new List<CuttingItem>();
         }

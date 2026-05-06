@@ -23,7 +23,7 @@ CuttingStockProblem/
 
 ## 安装说明
 
-1. 安装 .NET 6.0 SDK
+1. 安装 .NET 8.0 SDK
 2. 安装 Visual Studio 或 Visual Studio Code
 3. 在您首选的IDE中打开解决方案
 4. 构建并运行应用程序

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace CuttingStockProblem.Models
@@ -12,7 +13,12 @@ namespace CuttingStockProblem.Models
         /// <summary>
         /// Collection of cutting patterns in the solution
         /// </summary>
-        public List<CuttingPattern> Patterns { get; set; } = new List<CuttingPattern>();
+        public ObservableCollection<CuttingPattern> Patterns { get; set; }
+
+        /// <summary>
+        /// Patterns grouped by specification, with per-spec summary statistics
+        /// </summary>
+        public ObservableCollection<SpecificationGroup> SpecificationGroups { get; set; }
 
         /// <summary>
         /// Total waste across all patterns
@@ -36,7 +42,8 @@ namespace CuttingStockProblem.Models
 
         public SolutionResult()
         {
-            Patterns = new List<CuttingPattern>();
+            Patterns = new ObservableCollection<CuttingPattern>();
+            SpecificationGroups = new ObservableCollection<SpecificationGroup>();
         }
 
         public void AddPattern(CuttingPattern pattern)
